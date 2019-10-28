@@ -3,8 +3,8 @@
   <arg name="sensor" default="0" />
 
   <arg name="home_path" default="$(env HOME)" />
-  <arg name="sub_directory" default="nazev_mereni" />
-  <arg name="sub_sub_directory" default="0" />
+  <arg name="sub_directory" default="default" />
+  <arg name="sub_sub_directory" default="sensor_$(arg sensor)" />
 
   <!-- launch the node -->
   <node name="saver_$(arg sensor)" pkg="long_cell_scanner" type="saver" output="screen" respawn="true">
@@ -16,7 +16,6 @@
 
     <!-- map the correct topics -->
     <remap from="~image_in" to="/rospix/sensor_$(arg sensor)/image" />
-    <!-- <remap from="~image_in" to="masker_$(arg sensor)/image_out" /> -->
 
     <remap from="~fov_in" to="/long_cell_scanner/fov" />
     <remap from="~position_in" to="/gclib/position" />

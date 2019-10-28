@@ -5,7 +5,7 @@
 
   <node name="long_cell_scanner" pkg="long_cell_scanner" type="scanner.py" output="screen">
 
-    <rosparam file="$(find long_cell_scanner)/config/default.yaml" command="load" />
+    <rosparam file="$(find long_cell_scanner)/config/scanner.yaml" command="load" />
 
       <!-- advertised topics -->
     <remap from="~start_in" to="~start" />

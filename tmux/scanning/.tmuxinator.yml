@@ -1,0 +1,44 @@
+name: experiment
+root: ./
+startup_window: start
+tmux_options: -f tmux.conf
+# pre_window: export SESSION=2d_1ms_ToT_copper
+pre_window: export SESSION=automation_test_new; export SENSOR=0
+windows:
+  - rospix:
+      layout: even-horizontal
+      panes:
+        # - waitForRos; roslaunch long_cell_scanner rospix.launch
+        - waitForRos; roslaunch rospix dummy.launch
+  - masker:
+      layout: even-horizontal
+      panes:
+        - waitForRos; roslaunch rospix_utils masker.launch sensor:=$SENSOR
+  - record:
+      layout: even-horizontal
+      panes:
+        - waitForRos; mkdir -p ~/rex/data/$SESSION; ./record.sh "$SESSION"
+  - control:
+      layout: main-vertical
+      panes:
+        - waitForRos; roslaunch long_cell_scanner scanner.launch sensor:=$SENSOR
+        - rostopic echo /gclib/position
+        - waitForRos; mkdir -p ~/rex/data/$SESSION; roslaunch long_cell_scanner saver.launch sensor:=$SENSOR sub_directory:=$SESSION
+  - stitcher:
+      layout: even-horizontal
+      panes:
+        - waitForRos; roslaunch long_cell_scanner image_stitcher.launch sensor:=$SENSOR
+  - normalizer:
+      layout: even-horizontal
+      panes:
+        - waitForRos; roslaunch rospix_utils normalizer.launch sensor:=$SENSOR topic:=masker_$SENSOR/image_out invert:=true
+  - rqt:
+      layout: even-horizontal
+      panes:
+        - waitForRos; sleep 2; rqt_image_view /norm_$SENSOR/image_out
+        - waitForRos; sleep 2; rqt_image_view /image_stitcher/image_out
+        - waitForRos; ~/.i3/layout_manager.sh rex-scanning
+  - start:
+      layout: even-horizontal
+      panes:
+        - 'history -s rosservice call /long_cell_scanner/start'

@@ -1,0 +1,42 @@
+name: experiment
+root: ./
+startup_window: start
+tmux_options: -f tmux.conf
+pre_window: export SESSION=test; export SENSOR=0
+windows:
+  - rospix:
+      layout: even-vertical
+      panes:
+        # - waitForRos; roslaunch long_cell_scanner rex.launch
+        - waitForRos; roslaunch rospix dummy.launch
+  - masker:
+      layout: even-vertical
+      panes:
+        - waitForRos; roslaunch rospix_utils masker.launch sensor:=$SENSOR
+  - record:
+      layout: even-vertical
+      panes:
+        - waitForRos; mkdir -p ~/rex/data/$SESSION; ./record.sh "$SESSION"
+  - saver:
+      layout: even-vertical
+      panes:
+        - waitForRos; mkdir -p ~/rex/data/$SESSION; roslaunch long_cell_scanner saver.launch sensor:=$SENSOR
+  - integrator:
+      layout: even-vertical
+      panes:
+        - waitForRos; roslaunch rospix_utils integrator.launch sensor:=$SENSOR
+  - normalizer:
+      layout: even-vertical
+      panes:
+        - waitForRos; roslaunch rospix_utils normalizer.launch sensor:=$SENSOR topic:=masker_$SENSOR/image_out invert:=true name_suffix:=_orig
+        - waitForRos; roslaunch rospix_utils normalizer.launch sensor:=$SENSOR topic:=integrator_$SENSOR/image_out invert:=true name_suffix:=_int
+  - rqt:
+      layout: even-vertical
+      panes:
+        - waitForRos; sleep 2; rqt_image_view /norm_orig_$SENSOR/image_out
+        - waitForRos; sleep 2; rqt_image_view /norm_int_$SENSOR/image_out
+        - waitForRos; ~/.i3/layout_manager.sh rex-observing
+  - start:
+      layout: even-vertical
+      panes:
+        - 'history -s rosservice call /rospix/sensor_$SENSOR/do_continuous_exposure 1.0'

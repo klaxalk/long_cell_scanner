@@ -1,0 +1,13 @@
+name: gclib_ros
+root: ./
+startup_window: gclib_ros
+tmux_options: -f tmux.conf
+windows:
+  - gclib_ros:
+      layout: even-horizontal
+      panes:
+        - waitForRos; roslaunch gclib_ros gclib.launch
+  - roscore:
+      layout: even-horizontal
+      panes:
+        - roscore

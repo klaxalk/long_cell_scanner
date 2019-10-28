@@ -2,10 +2,10 @@ main_timer_rate: 10.0 # [Hz]
 
 image_size: 1.0 # deg
 
-overlap: 10.0 # %
+overlap: 0.0 # %
 
-width: 3 # steps, should be
+width: 5 # steps, should be
 height: 3 # steps
 
-exposure_time_per_position: 300.0 # [s]
+exposure_time_per_position: 30.0 # [s]
 exposure_time_per_image: 0.5 # [s]
