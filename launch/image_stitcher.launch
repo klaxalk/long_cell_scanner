@@ -1,0 +1,17 @@
+<launch>
+
+  <arg name="sensor" default="0" />
+
+  <node name="image_stitcher" pkg="long_cell_scanner" type="image_stitching.py" output="screen">
+
+      <!-- advertised topics -->
+
+    <remap from="~image_fov_in" to="/long_cell_scanner/fov" />
+    <remap from="~image_width_in" to="/long_cell_scanner/width" />
+    <remap from="~image_height_in" to="/long_cell_scanner/height" />
+    <remap from="~position_in" to="/gclib/position" />
+    <remap from="~image_in" to="/masker_$(arg sensor)/image_out" />
+
+  </node>
+
+</launch>

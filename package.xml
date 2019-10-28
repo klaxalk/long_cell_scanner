@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+
+  <name>long_cell_scanner</name>
+  <version>0.0.1</version>
+  <description>Main planner for the long cell scanner</description>
+
+  <maintainer email="klaxalk@gmail.com">Tomas Baca</maintainer>
+
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+  <depend>message_runtime</depend>
+  <depend>geometry_msgs</depend>
+  <depend>rospix</depend>
+
+  <export>
+  </export>
+
+</package>

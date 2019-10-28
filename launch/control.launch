@@ -1,0 +1,24 @@
+<launch>
+
+  <arg name="dummy" default="true" />
+  <arg name="sensor" default="0" />
+
+  <node name="long_cell_scanner" pkg="long_cell_scanner" type="scanner.py" output="screen">
+
+    <rosparam file="$(find long_cell_scanner)/config/default.yaml" command="load" />
+
+      <!-- advertised topics -->
+    <remap from="~start_in" to="~start" />
+    <remap from="~goto_out" to="/gclib/goto" />
+    <remap from="~start_exposures_out" to="/rospix/sensor_$(arg sensor)/do_continuous_exposure" />
+    <remap from="~interrupt_measurement_out" to="/rospix/sensor_$(arg sensor)/interrupt_measurement" />
+
+    <remap from="~rename_out" to="/saver_$(arg sensor)/set_directory" />
+    <remap from="~fov_out" to="~fov" />
+    <remap from="~width_out" to="~width" />
+    <remap from="~height_out" to="~height" />
+    <remap from="~overlap_out" to="~overlap" />
+
+  </node>
+
+</launch>
