@@ -10,6 +10,10 @@ windows:
       panes:
         # - waitForRos; roslaunch long_cell_scanner rospix.launch
         - waitForRos; roslaunch rospix dummy.launch
+  - start:
+      layout: even-horizontal
+      panes:
+        - 'history -s rosservice call /long_cell_scanner/start'
   - masker:
       layout: even-horizontal
       panes:
@@ -19,7 +23,7 @@ windows:
       panes:
         - waitForRos; mkdir -p ~/rex/data/$SESSION; ./record.sh "$SESSION"
   - control:
-      layout: main-vertical
+      layout: main-horizontal
       panes:
         - waitForRos; roslaunch long_cell_scanner scanner.launch sensor:=$SENSOR
         - rostopic echo /gclib/position
@@ -38,7 +42,3 @@ windows:
         - waitForRos; sleep 2; rqt_image_view /norm_$SENSOR/image_out
         - waitForRos; sleep 2; rqt_image_view /image_stitcher/image_out
         - waitForRos; ~/.i3/layout_manager.sh rex-scanning
-  - start:
-      layout: even-horizontal
-      panes:
-        - 'history -s rosservice call /long_cell_scanner/start'
