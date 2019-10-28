@@ -1,2 +1,1 @@
-# gclib_ros
-ROS wrapper for controlling the Galil stages using the gclib library.
+# Automation of scanning at the PSU longcell
