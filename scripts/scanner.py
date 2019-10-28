@@ -7,7 +7,7 @@ from gclib_ros.msg import Position
 from gclib_ros.srv import MultiAxisMotion
 from std_srvs.srv import Trigger,TriggerResponse,TriggerRequest
 from rospix.srv import Exposure
-from rospix.srv import SetString
+from long_cell_scanner.srv import SetString
 from std_msgs.msg import Float64
 
 class LongCellScanner:

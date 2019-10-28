@@ -1,0 +1,107 @@
+# dont forget to update this number according to following contents
+number_of_detectors: 2 
+
+#------------------------------------------------------------------------------------------
+
+sensor_0: # the names are fixed, just the number change
+
+  # by this name the device is found, run "roslaunch rospix list_devices" to find it
+  name: 'FITPIX 3.0 sn: 0001'
+
+  # location of the equalization file
+  # location is relative to a directory specified in launch file
+  equalization: 'RiseSat001_new.bpc' # *.bpc is needed  
+  # print percentage of sensor exposure time to real time
+  print_utilization: true
+  
+  defaults:
+    threshold: 718    # [-]
+    bias: 100.0       # [Volt]
+    exposure: 1.0     # [second]
+    mode: 1           # [0 = MPX, 1 = TOT]
+    clock: 10         # {10, 20, 40} Mhz are the only allowed values
+
+    # dacs can be found in calibration protocol (or equalization protocol)
+    dacs: [1,100,255,127,127,0,718,8,130,159,80,85,128,128]
+
+sensor_1: # the names are fixed, just the number change
+
+  # by this name the device is found, run "roslaunch rospix list_devices" to find it
+  name: 'FITPIX 3.0 sn: 0002'
+
+  # location of the equalization file
+  # location is relative to a directory specified in launch file
+  equalization: 'RiseSat002_new.bpc' # *.bpc is needed
+  # print percentage of sensor exposure time to real time
+  print_utilization: true
+
+  defaults:
+    threshold: 726    # [-]
+    bias: 100.0        # [Volt]
+    exposure: 1.0     # [second]
+    mode: 1           # [0 = MPX, 1 = TOT]
+    clock: 10         # {10, 20, 40} Mhz are the only allowed values      
+
+    # dacs can be found in calibration protocol (or equalization protocol)
+    dacs: [1,100,255,127,127,0,726,8,130,160,80,85,128,128]
+
+#sensor_2: # the names are fixed, just the number change
+#
+#  # by this name the device is found, run "roslaunch rospix list_devices" to find it
+#  name: 'Medipix2 ver 1.32 sn: 1096'
+#
+#  # location of the equalization file
+#  # location is relative to a directory specified in launch file
+#  equalization: 'lite_rigaku.bpc' # *.bpc is needed
+#  
+#  # print percentage of sensor exposure time to real time
+#  print_utilization: true
+#  
+#  defaults:
+#    threshold: 340    # [-]
+#    bias: 10.0        # [Volt]
+#    exposure: 1.0     # [second]
+#    mode: 1           # [0 = MPX, 1 = TOT]
+#    clock: 20         # {10, 20, 40} Mhz are the only allowed values
+#
+#    # dacs can be found in calibration protocol (or equalization protocol)
+#    dacs: [1,100,255,127,127,0,340,7,130,128,80,85,128,128]
+
+
+#sensor_3: # the names are fixed, just the number change
+#
+#  # by this name the device is found, run "roslaunch rospix list_devices" to find it
+#  name: 'WidePIX FitPIX sn: 0006'
+#
+#  # location of the equalization file
+#  # location is relative to a directory specified in launch file
+#  equalization: 'fitpix_rigaku.bpc' # *.bpc is needed
+#
+#  # print percentage of sensor exposure time to real time
+#  print_utilization: true
+#
+#  defaults:
+#    threshold: 700    # [-]
+#    bias: 10.0        # [Volt]
+#    exposure: 1.0     # [second]
+#    mode: 1           # [0 = MPX, 1 = TOT]
+#    clock: 20         # {10, 20, 40} Mhz are the only allowed values
+#
+#    # dacs can be found in calibration protocol (or equalization protocol)
+#    dacs: [1,100,170,127,127,0,716,8,130,160,80,85,128,128]
+#
+
+##------------------------------------------------------------------------------------
+#sensor_4: # the names are fixed, just the number change
+#
+#  name: 'dummy'
+#
+#  simulate_focus: true        # should we simulate optics?
+#  optics_dimension: 1         # optics dimensionality 1=1D, 2=2D
+#  photon_flux: 100            # [photons/s], whole number
+#  simulate_background: true   # should we simulation radiation background?
+#  n_images: 20                # how many images of radiation background do we have?
+#
+#  defaults:
+#    exposure: 1.0             # [seconds]
+#

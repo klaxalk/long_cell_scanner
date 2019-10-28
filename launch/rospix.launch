@@ -1,0 +1,17 @@
+<launch>
+
+  <!-- launch the node -->
+  <node name="rospix" pkg="rospix" type="rospix" output="screen">
+
+    <!-- load config from config file -->
+    <rosparam file="$(find long_cell_scanner)/config/rospix.yaml" />
+
+    <!-- specify where should the node look for equalization matrices -->
+    <param name="equalization_directory" value="$(find long_cell_scanner)/rospix/equalizations/" />
+
+    <!-- publishers -->
+    <remap from="~status" to="~status" />
+
+  </node>
+
+</launch>
