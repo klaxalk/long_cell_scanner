@@ -1,0 +1,23 @@
+<launch>
+
+  <arg name="sensor" default="0" />
+
+  <!-- launch the node -->
+  <node name="exposure_control_$(arg sensor)" pkg="rospix_utils" type="controller" output="screen">
+
+    <!-- load config from config file -->
+    <rosparam file="$(find long_cell_scanner)/config/controller.yaml" />
+
+    <!-- map the correct topics SUBSCRIBERS -->
+    <remap from="~image_in" to="/masker_$(arg sensor)/image_out" />
+
+    <!-- map the correct topics SERVICES -->
+    <remap from="~do_exposure" to="/rospix/sensor_$(arg sensor)/do_continuous_exposure" />
+    <remap from="~set_exposure" to="/rospix/sensor_$(arg sensor)/set_exposure_time" />
+
+    <!-- map the correct topics of PUBLISHERS-->
+    <remap from="~exposure_time" to="~exposure_time" />
+
+  </node>
+
+</launch>

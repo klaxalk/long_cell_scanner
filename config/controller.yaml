@@ -1,0 +1,10 @@
+# what is the desired pixel count per exposure?
+desired_pixel_count: 150
+
+init_exposure: 0.015
+
+max_exposure: 1.0 # [s]
+min_exposure: 0.005 # [s]
+
+proportional_gain: 0.0005
+max_exposure_step: 0.005 # [s]

@@ -61,6 +61,7 @@ class ImageStitcher:
             # upscale the image to higher resolution
             upscale_factor = 2
             upscaled = cv2.resize(img_8bit, dsize=(self.px_width*upscale_factor, self.px_height*upscale_factor), interpolation = cv2.INTER_AREA)
+            upscaled = cv2.transpose(upscaled)
 
             # convert the image to colored format
             upscaled = cv2.cvtColor(upscaled, cv2.COLOR_GRAY2BGR)
@@ -104,10 +105,10 @@ class ImageStitcher:
         for i,pixel in enumerate(data.image):
 
             x = i // 256
-            y = i % 256
+            y = 255 - (i % 256)
 
-            image_x = int(x) + int(256*(((self.image_height/self.fov) - 1.0)/2.0 + self.position[1]/self.fov))
-            image_y = int(y) + int(256*(((self.image_width/self.fov) - 1.0)/2.0 + self.position[0]/self.fov))
+            image_x = int(y) + int(256*(((self.image_height/self.fov) - 1.0)/2.0 + self.position[1]/self.fov))
+            image_y = int(x) + int(256*(((self.image_width/self.fov) - 1.0)/2.0 + self.position[0]/self.fov))
 
             self.np_image[image_x, image_y] += pixel
 

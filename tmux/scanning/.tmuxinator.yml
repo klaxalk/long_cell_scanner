@@ -1,23 +1,24 @@
 name: experiment
 root: ./
-startup_window: start
+startup_window: rospix
 tmux_options: -f tmux.conf
 # pre_window: export SESSION=2d_1ms_ToT_copper
-pre_window: export SESSION=automation_test_new; export SENSOR=0
+pre_window: export SESSION=2d_5_by_1_Cu_ToT_150_px_per_image; export SENSOR=0
 windows:
   - rospix:
       layout: even-horizontal
       panes:
-        # - waitForRos; roslaunch long_cell_scanner rospix.launch
-        - waitForRos; roslaunch rospix dummy.launch
+        - waitForRos; roslaunch long_cell_scanner rospix.launch
+        # - waitForRos; roslaunch rospix dummy.launch
   - start:
       layout: even-horizontal
       panes:
         - 'history -s rosservice call /long_cell_scanner/start'
+        - waitForRos; read; roslaunch long_cell_scanner controller.launch sensor:=$SENSOR
   - masker:
       layout: even-horizontal
       panes:
-        - waitForRos; roslaunch rospix_utils masker.launch sensor:=$SENSOR
+        - waitForRos; roslaunch long_cell_scanner masker.launch sensor:=$SENSOR
   - record:
       layout: even-horizontal
       panes:

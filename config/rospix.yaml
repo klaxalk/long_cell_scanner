@@ -17,7 +17,7 @@ sensor_0: # the names are fixed, just the number change
   defaults:
     threshold: 718    # [-]
     bias: 100.0       # [Volt]
-    exposure: 1.0     # [second]
+    exposure: 0.01     # [second]
     mode: 1           # [0 = MPX, 1 = TOT]
     clock: 10         # {10, 20, 40} Mhz are the only allowed values
 
@@ -38,7 +38,7 @@ sensor_1: # the names are fixed, just the number change
   defaults:
     threshold: 726    # [-]
     bias: 100.0        # [Volt]
-    exposure: 1.0     # [second]
+    exposure: 0.01     # [second]
     mode: 1           # [0 = MPX, 1 = TOT]
     clock: 10         # {10, 20, 40} Mhz are the only allowed values      
 

@@ -7,7 +7,7 @@
     <rosparam file="$(find long_cell_scanner)/config/rospix.yaml" />
 
     <!-- specify where should the node look for equalization matrices -->
-    <param name="equalization_directory" value="$(find long_cell_scanner)/rospix/equalizations/" />
+    <param name="equalization_directory" value="$(find long_cell_scanner)/config/rospix/" />
 
     <!-- publishers -->
     <remap from="~status" to="~status" />

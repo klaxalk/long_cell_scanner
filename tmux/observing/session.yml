@@ -2,17 +2,21 @@ name: experiment
 root: ./
 startup_window: start
 tmux_options: -f tmux.conf
-pre_window: export SESSION=test; export SENSOR=0
+pre_window: export SESSION=2d_flux_measuring_150px; export SENSOR=0
 windows:
   - rospix:
       layout: even-vertical
       panes:
-        # - waitForRos; roslaunch long_cell_scanner rex.launch
-        - waitForRos; roslaunch rospix dummy.launch
+        - waitForRos; roslaunch long_cell_scanner rospix.launch
+        # - waitForRos; roslaunch rospix dummy.launch
+  - start:
+      layout: even-vertical
+      panes:
+        - 'history -s rosservice call /rospix/sensor_$SENSOR/do_continuous_exposure 0.03'
   - masker:
       layout: even-vertical
       panes:
-        - waitForRos; roslaunch rospix_utils masker.launch sensor:=$SENSOR
+        - waitForRos; roslaunch long_cell_scanner masker.launch sensor:=$SENSOR
   - record:
       layout: even-vertical
       panes:
@@ -20,7 +24,11 @@ windows:
   - saver:
       layout: even-vertical
       panes:
-        - waitForRos; mkdir -p ~/rex/data/$SESSION; roslaunch long_cell_scanner saver.launch sensor:=$SENSOR
+        - waitForRos; mkdir -p ~/rex/data/$SESSION; roslaunch long_cell_scanner saver.launch sensor:=$SENSOR sub_directory:=$SESSION
+  - controller:
+      layout: even-vertical
+      panes:
+        - waitForRos; read; roslaunch long_cell_scanner controller.launch sensor:=$SENSOR
   - integrator:
       layout: even-vertical
       panes:
@@ -36,7 +44,7 @@ windows:
         - waitForRos; sleep 2; rqt_image_view /norm_orig_$SENSOR/image_out
         - waitForRos; sleep 2; rqt_image_view /norm_int_$SENSOR/image_out
         - waitForRos; ~/.i3/layout_manager.sh rex-observing
-  - start:
-      layout: even-vertical
+  - control:
+      layout: main-horizontal
       panes:
-        - 'history -s rosservice call /rospix/sensor_$SENSOR/do_continuous_exposure 1.0'
+        - waitForRos; roslaunch long_cell_scanner scanner.launch sensor:=$SENSOR

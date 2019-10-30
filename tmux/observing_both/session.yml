@@ -1,0 +1,57 @@
+name: experiment
+root: ./
+startup_window: start
+tmux_options: -f tmux.conf
+pre_window: export SESSION=am_on_air_2; export SENSOR=0
+windows:
+  - rospix:
+      layout: even-vertical
+      panes:
+        - waitForRos; roslaunch long_cell_scanner rospix.launch
+        # - waitForRos; roslaunch rospix dummy.launch
+  - start:
+      layout: even-vertical
+      panes:
+        - 'history -s rosservice call /rospix/sensor_0/do_continuous_exposure 1.0'
+        - 'history -s rosservice call /rospix/sensor_1/do_continuous_exposure 1.0'
+  - masker:
+      layout: even-vertical
+      panes:
+        - waitForRos; roslaunch long_cell_scanner masker.launch sensor:=0
+        - waitForRos; roslaunch long_cell_scanner masker.launch sensor:=1
+  - record:
+      layout: even-vertical
+      panes:
+        - waitForRos; mkdir -p ~/rex/data/$SESSION; ./record.sh "$SESSION"
+  - saver:
+      layout: even-vertical
+      panes:
+        - waitForRos; mkdir -p ~/rex/data/$SESSION; roslaunch long_cell_scanner saver.launch sensor:=0 sub_directory:=$SESSION
+        - waitForRos; mkdir -p ~/rex/data/$SESSION; roslaunch long_cell_scanner saver.launch sensor:=1 sub_directory:=$SESSION
+  - integrator:
+      layout: even-vertical
+      panes:
+        - waitForRos; roslaunch rospix_utils integrator.launch sensor:=0
+        - waitForRos; roslaunch rospix_utils integrator.launch sensor:=1
+  - normalizer_0:
+      layout: even-vertical
+      panes:
+        - waitForRos; roslaunch rospix_utils normalizer.launch sensor:=0 topic:=masker_0/image_out invert:=true name_suffix:=_orig
+        - waitForRos; roslaunch rospix_utils normalizer.launch sensor:=0 topic:=integrator_0/image_out invert:=true name_suffix:=_int
+  - normalizer_1:
+      layout: even-vertical
+      panes:
+        - waitForRos; roslaunch rospix_utils normalizer.launch sensor:=1 topic:=masker_1/image_out invert:=true name_suffix:=_orig
+        - waitForRos; roslaunch rospix_utils normalizer.launch sensor:=1 topic:=integrator_1/image_out invert:=true name_suffix:=_int
+  - rqt:
+      layout: even-vertical
+      panes:
+        - waitForRos; sleep 2; rqt_image_view /norm_orig_0/image_out
+        - waitForRos; sleep 2; rqt_image_view /norm_int_0/image_out
+        - waitForRos; sleep 2; rqt_image_view /norm_orig_1/image_out
+        - waitForRos; sleep 2; rqt_image_view /norm_int_1/image_out
+        - waitForRos; ~/.i3/layout_manager.sh rex-observing-both
+  - control:
+      layout: main-horizontal
+      panes:
+        - waitForRos; roslaunch long_cell_scanner scanner.launch sensor:=$SENSOR
